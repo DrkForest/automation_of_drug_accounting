@@ -180,6 +180,24 @@ namespace automation_of_drug_accounting_WF_csharp_
 
             //code Sardanov
 
+            try
+            {
+                if (newRowAdding == false)
+                {
+                    newRowAdding = true;
+                    int lastRow = dataGridView1.Rows.Count - 2;
+                    DataGridViewRow row = dataGridView1.Rows[lastRow];
+                    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+                    dataGridView1[11, lastRow] = linkCell;
+                    row.Cells["Delete"].Value = "Insert";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
