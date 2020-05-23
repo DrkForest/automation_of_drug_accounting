@@ -206,6 +206,22 @@ namespace automation_of_drug_accounting_WF_csharp_
 
             //code Sardanov
 
+            try
+            {
+                if (newRowAdding == false)
+                {
+                    int rowIndex = dataGridView1.SelectedCells[0].RowIndex;
+                    DataGridViewRow editingRow = dataGridView1.Rows[rowIndex];
+                    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+                    dataGridView1[11, rowIndex] = linkCell;
+                    editingRow.Cells["Delete"].Value = "Update";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
 
