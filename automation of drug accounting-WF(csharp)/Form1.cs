@@ -103,13 +103,6 @@ namespace automation_of_drug_accounting_WF_csharp_
         {
             //code Sardanov
             
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            
         }
 
         private void dataGridView1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
