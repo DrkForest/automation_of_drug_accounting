@@ -102,6 +102,75 @@ namespace automation_of_drug_accounting_WF_csharp_
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             //code Sardanov
+
+            try
+            {
+                if (e.ColumnIndex == 11)
+                {
+                    string task = dataGridView1.Rows[e.RowIndex].Cells[11].Value.ToString();
+
+                    if (task == "Delete") // удаление
+                    {
+                        if (MessageBox.Show("Delete this ?", "Deleting...", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            int rowIndex = e.RowIndex;
+
+                            dataGridView1.Rows.RemoveAt(rowIndex);
+                            dataSet.Tables["Medicines"].Rows[rowIndex].Delete();
+                            sqlDataAdapter.Update(dataSet, "Medicines");
+                        }
+                    }
+                    else if (task == "Insert") // заполнение ячеек 
+                    {
+                        int rowIndex = dataGridView1.Rows.Count - 2;
+                        DataRow row = dataSet.Tables["Medicines"].NewRow();
+
+                        row["Name"] = dataGridView1.Rows[rowIndex].Cells["Name"].Value;
+                        row["Manufacturer"] = dataGridView1.Rows[rowIndex].Cells["Manufacturer"].Value;
+                        row["Price(UAH)"] = dataGridView1.Rows[rowIndex].Cells["Price(UAH)"].Value;
+                        row["Amount"] = dataGridView1.Rows[rowIndex].Cells["Amount"].Value;
+                        row["Type"] = dataGridView1.Rows[rowIndex].Cells["Type"].Value;
+                        row["Active substance(ml)"] = dataGridView1.Rows[rowIndex].Cells["Active substance(ml)"].Value;
+                        row["Amount in a package(№)"] = dataGridView1.Rows[rowIndex].Cells["Amount in a package(№)"].Value;
+                        row["Registration"] = dataGridView1.Rows[rowIndex].Cells["Registration"].Value;
+                        row["Vacation conditions"] = dataGridView1.Rows[rowIndex].Cells["Vacation conditions"].Value;
+                        row["Description"] = dataGridView1.Rows[rowIndex].Cells["Description"].Value;
+
+                        dataSet.Tables["Medicines"].Rows.Add(row);
+                        dataSet.Tables["Medicines"].Rows.RemoveAt(dataSet.Tables["Medicines"].Rows.Count - 1);
+                        dataGridView1.Rows.RemoveAt(dataGridView1.Rows.Count - 2);
+                        dataGridView1.Rows[e.RowIndex].Cells[11].Value = "Delete";
+                        sqlDataAdapter.Update(dataSet, "Medicines");
+                        newRowAdding = false;
+                    }
+                    else if (task == "Update") // переопределение ячеек
+                    {
+                        int r = e.RowIndex;
+
+                        dataSet.Tables["Medicines"].Rows[r]["Name"] = dataGridView1.Rows[r].Cells["Name"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Manufacturer"] = dataGridView1.Rows[r].Cells["Manufacturer"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Price(UAH)"] = dataGridView1.Rows[r].Cells["Price(UAH)"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Amount"] = dataGridView1.Rows[r].Cells["Amount"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Type"] = dataGridView1.Rows[r].Cells["Type"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Active substance(ml)"] = dataGridView1.Rows[r].Cells["Active substance(ml)"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Amount in a package(№)"] = dataGridView1.Rows[r].Cells["Amount in a package(№)"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Registration"] = dataGridView1.Rows[r].Cells["Registration"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Vacation conditions"] = dataGridView1.Rows[r].Cells["Vacation conditions"].Value;
+                        dataSet.Tables["Medicines"].Rows[r]["Description"] = dataGridView1.Rows[r].Cells["Description"].Value;
+
+                        sqlDataAdapter.Update(dataSet, "Medicines");
+                        dataGridView1.Rows[e.RowIndex].Cells[11].Value = "Delete";
+                    }
+
+
+                    DataUpdate();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             
         }
 
@@ -110,6 +179,7 @@ namespace automation_of_drug_accounting_WF_csharp_
             // изменения удаления на инсерт
 
             //code Sardanov
+
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -117,6 +187,7 @@ namespace automation_of_drug_accounting_WF_csharp_
             // изменение удаления на апдейт
 
             //code Sardanov
+
         }
 
 
